@@ -1,0 +1,61 @@
+<!DOCTYPE html><!-- classpath:/templates/upload.html -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<div>
+		<input type="file" name="uploadFiles" multiple>
+		<button class="uploadBtn">upload</button>
+	</div>
+	<script>
+		document.querySelector('.uploadBtn')
+				.addEventListener('click', function(event){
+					let formData = new FormData();
+					// AJAX를 이용여 'Content-type:multipart/form-data'를 보내는 경우
+					
+					let inputTag = event.currentTarget.previousElementSibling;
+					let fileList = inputTag.files;
+					
+					for(let file of fileList){
+						formData.append(inputTag.name, file);
+						// append(key, value);
+					}
+					
+					console.log(formData.get(inputTag.name));
+					
+					// AJAX
+					// = fetch()
+					fetch('uploadsAjax', {
+						method : 'post',
+						body : formData // FormData 자체가 Content-type에 대한 정보를 들고 있음
+					})
+					.then(res => res.json())
+					.then(result => {
+						console.log(result);
+					})
+					.catch(err => console.log(err));
+					
+					// = jQuery.ajax()
+					$.ajax('uploadsAjax', {
+						type : 'post',
+						data : formData,
+						// data 속성의 값을 QueryString 변환하는 설정
+						processData : false,
+						// 기본 content-type : x-www-form-urlencoded
+						contentType : false
+					})
+					.done(result =>{
+						for(let image of result){
+							let imgTag = `<img src='/yedam/imgs/${image}' style="width:50%;">`;
+							$('div').append(imgTag);
+						}
+					})
+					.fail(err => console.log(err));
+					
+				});		
+	</script>
+</body>
+</html>

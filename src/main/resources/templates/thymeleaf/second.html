@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<!--/*  타임리프 기본 문법
+		1) 변수표현식 =>  th:속성="${}"
+		2) 링크표현식 : 경로 생성
+			=> th:src="@{}"
+			=> th:href="@{}"
+			=> th:action="@{}"
+			[[ ]]
+	 */-->
+	<a href="/empList">전체조회</a>
+	<a th:href="@{/empList}" th:text="'전체조회'"/>
+	<hr>
+	<p>사원정보 : [[ ${info} ]]</p>
+	<p th:id="${info.employeeId}" 
+	   th:name="${info.lastName + '_' + info.firstName}" 
+	   th:text="|사원의 업무는 ${info.jobId}이고 부서는 ${info.departmentId}입니다.|" />
+</body>
+</html>

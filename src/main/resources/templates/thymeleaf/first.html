@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div>
+		<h1>타임리프 테스트</h1>
+		<th:block th:each="num : ${ #numbers.sequence(1,5) }">
+			<p th:if="${ num % 2 == 0}" th:text="${num}"/>
+		</th:block>
+	</div>
+</body>
+</html>

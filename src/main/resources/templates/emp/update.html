@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<form name="updateForm" th:object="${emp}">
+		<h3>사원 정보 수정</h3>
+		<div>
+			<label for="eid">사원번호</label>
+			<!-- <input type="text" id="eid" name="employeeId" th:value="${emp.employeeId}" readonly> -->
+			<input type="text" id="eid" th:field="*{employeeId}" readonly>
+		</div>
+		<div>
+			<label for="ename">이름</label>
+			<input type="text" id="ename" th:field="*{lastName}">
+		</div>
+		<div>
+			<label for="email">이메일</label>
+			<input type="email" id="email" th:field="*{email}">
+		</div>
+		<div>
+			<label for="hDate">입사일</label>
+			<!-- <input type="date" id="hDate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}"> -->
+			<input type=date id="hDate" th:field="*{hireDate}">
+		</div>
+		<div>
+			<label for="job">업무</label>
+			<input type="text" id="job" th:field="*{jobId}">
+		</div>
+		<div>
+			<label for="sal">급여</label>
+			<input type="number" id="sal" th:field="*{salary}">
+		</div>
+		<div>
+			<button type="button" id="updateBtn">수정</button>
+		</div>
+	</form>
+	<script>
+		document.getElementById('updateBtn')
+						.addEventListener('click', updateEmpAJAX);
+
+		function updateEmpAJAX(event){
+			// 1) 보낼 데이터 결정
+			let info = getEmpVO();
+
+			// 2) AJAX
+			// -1) QueryString => URLSearchParams
+			// fetch('empUpdate',{
+			// 	method : 'post',
+			// 	body : new URLSearchParams(info)
+			// })
+			// .then(response => response.json() )
+			// .then(result =>{
+			// 	console.log(result);
+			// })
+			// .catch(err => console.log(err));
+
+			// -2) JSON => @RequestBody
+			fetch('empUpdate',{
+				method : 'post',
+				//추가
+				headers : {
+					'Content-type' : 'application/json'
+				},
+				body : JSON.stringify(info) // 변경
+			})
+			.then(response => response.json() )
+			.then(result =>{
+				console.log(result);
+			})
+			.catch(err => console.log(err));
+
+		}
+
+		function getEmpVO(){
+			// FormData => content-type : multipart/form-data
+			// FormData : <form/> 태그를 기준으로 
+			//            내부에 존재하는 모든 입력태그 일괄처리
+			let formData = new FormData(updateForm);
+			
+			let formObj = {};
+			formData.forEach((value, name)=>{
+				// console.log(name, value);
+				formObj[name] = value;
+			});
+			console.log(formObj);
+			return formObj;
+		}
+	</script>
+</body>
+</html>

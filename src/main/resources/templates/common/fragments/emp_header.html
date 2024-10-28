@@ -1,0 +1,16 @@
+<!DOCTYPE html><!-- emp_header.html -->
+<div xmlns:th="https://www.thymeleaf.org"
+	 th:fragment="EmpHeader">
+<!--/*   
+	<nav class="nav">
+  		<a class="nav-link active" aria-current="page" th:href="@{/empList}">전체조회</a>
+  		<a class="nav-link" th:href="@{/empInsert}">등록</a>
+	</nav>	
+*/-->
+	 <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a th:href="@{/empList}" class="nav-link active" aria-current="page">전체조회</a></li>
+        <li class="nav-item"><a th:href="@{/empInsert}" class="nav-link">등록</a></li>
+      </ul>
+    </header>
+</div>

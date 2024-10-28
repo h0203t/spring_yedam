@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div class="container text-center">		
+		<h5>전체 사원 조회</h5>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>사원번호</th>
+					<th>이름</th><!-- lastName -->
+					<th>입사일자</th><!-- yyyy년MM월dd일 -->
+					<th>업무</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="info, sts : ${emps}">
+					<!-- 두번째 변수(sts) : index, count, size, even, odd, first, last  -->
+					<!-- 반복하고자 하는 태그 -->
+					<tr><!-- tr <=> info -->
+						<td>[[ ${sts.count} ]]</td>
+						<td th:text="${info.employeeId}"/>
+						<td th:text="${info.lastName}"/>
+						<!--/* <td>[[ ${info.hireDate} ]]</td> */-->
+						<td>[[ ${ #dates.format(info.hireDate, 'yyyy년MM월dd일' ) } ]]</td>
+						<td>[[ ${info.jobId} ]]</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		// 단건조회
+		let trList = document.querySelectorAll('tbody tr');
+		trList.forEach(function(tr){
+			tr.addEventListener('click', selectInfo);
+		});
+		let ctxPath = document.querySelector('meta[name="contextPath"]').getAttribute('value');
+		function selectInfo(event){
+			// 필드
+			// target	 : 진짜로 이벤트가 발생한 태그 => 고정
+			// currentTarget : target을 포함 이벤트 버블링을 통해 전달받은 태그까지 => 유동
+			// 메소드
+			// preventDefault()  : 기본 이벤트 핸들러 일시 중지
+			// stopPropagation() : 이벤트 버블링 멈춤
+			
+			let selectedTr = event.currentTarget;
+			let eid = selectedTr.querySelector('td:nth-of-type(2)').textContent;
+			let url = ctxPath + '/empInfo?employeeId='+eid;
+			location.href=url;
+		}
+	</script>
+</body>
+</html>

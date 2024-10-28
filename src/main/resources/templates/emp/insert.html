@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<form name="insertForm" th:action="@{/empInsert}" method="post">
+		<h3>사원 정보 등록</h3>		
+		<div>
+			<label for="ename">이름</label>
+			<input type="text" id="ename" name="lastName">
+		</div>
+		<div>
+			<label for="email">이메일</label>
+			<input type="email" id="email" name="email">
+		</div>
+		<div>
+			<label for="hDate">입사일</label>
+			<!-- <input type="text" id="hDate" name="hireDate" placeholder="yyyy/MM/dd"> -->
+			<input type="date" id="hDate" name="hireDate">
+		</div>
+		<div>
+			<label for="job">업무</label>
+			<input type="text" id="job" name="jobId">
+		</div>
+		<div>
+			<label for="sal">급여</label>
+			<input type="number" step="0.01" min="1" id="sal" name="salary">
+		</div>
+		<div>			
+			<button type="submit">등록</button>
+		</div>
+	</form>
+	<script>
+		//document.querySelector('form[name="insertForm"]');
+		insertForm.addEventListener('submit', insertEmp);
+
+		function insertEmp(event){
+			event.preventDefault(); // 해당 이벤트 일시정지
+
+			// 이름
+			let nameTag = insertForm.querySelector('input[name="lastName"]');
+			if(nameTag.value == ''){
+				alert('이름이 입력되지 않았습니다.');
+				nameTag.focus();
+				return;
+			}
+			
+			// 이메일
+			let emailTag = insertForm.querySelector('input[name="email"]');
+			if(emailTag.value == ''){
+				alert('이메일이 입력되지 않았습니다.');
+				emailTag.focus();
+				return;
+			}
+
+			// 업무
+			let jobTag = insertForm.querySelector('input[name="jobId"]');
+			if(jobTag.value == ''){
+				alert('업무가 입력되지 않았습니다.');
+				jobTag.focus();
+				return;
+			}
+
+			insertForm.submit();
+		};
+	</script>
+</body>
+</html>

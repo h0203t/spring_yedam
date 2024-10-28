@@ -1,0 +1,24 @@
+<!DOCTYPE html><!-- default_layout.html -->
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>.
+<meta charset="UTF-8">
+<title></title>
+<!-- setting -->
+<!--/*  
+	~{} : fragment 표현식  => ~{html경로 :: fragment이름}
+	classpath:/templates/common/configs/default_config.html => ctxPathConfig
+	common/configs/default_config => ctxPathConfig
+*/-->
+<div th:replace="~{common/configs/default_config :: ctxPathConfig}"></div>
+<th:block th:replace="~{common/configs/default_config :: BootstrapConfig}"></th:block>
+</head>
+<body>
+	<div class="container"><!--/* classpath:/templates/common/fragments/emp_header.html */-->
+		<header th:insert="~{common/fragments/emp_header :: EmpHeader}"></header>
+		<main>
+			<th:block layout:fragment="Content"></th:block>
+		</main>
+	</div>
+</body>
+</html>

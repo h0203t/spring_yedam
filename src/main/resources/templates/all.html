@@ -1,0 +1,36 @@
+<!DOCTYPE html><!-- classpath:/templates/all.html -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf_name" th:value="${_csrf.headerName}">
+    <meta name="csrf_value" th:value="${_csrf.token}">
+    <title></title>
+</head>
+<body>
+<h1>메인 페이지입니다.</h1>
+<ul>
+    <li>
+        <a th:href="@{/user}">일반 사용자용 페이지로</a>
+    </li>
+    <li>
+        <a th:href="@{/admin}">관리자 전용 페이지로</a>
+    </li>
+</ul>
+<div sec:authorize="isAnonymous()">
+    로그인 전
+</div>
+<div sec:authorize="isAuthenticated()">
+    로그인된 경우
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    어드민
+    <th:block sec:authorize="isAuthenticated()">
+        <p sec:authentication="name"></p>
+        <p sec:authentication="principal.authorities"></p>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">로그아웃</button>
+        </form>
+    </th:block>
+</body>
+</html>
